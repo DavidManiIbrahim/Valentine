@@ -2,56 +2,111 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API from "../api/axios";
 import MovingNoButton from "../components/MovingNoButton";
-import { themes } from "../utils/themes";
-
+import { themes } from "../utils/Themes";
+import "./valentine.css"; // Import the CSS file
 
 export default function Valentine() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [data, setData] = useState(null);
-    const theme = themes[data.theme] || themes.rose;
-
-
+    const [loading, setLoading] = useState(true);
+    
     useEffect(() => {
-        API.get(`/valentine/${id}`).then(res => setData(res.data));
-    }, []);
+        API.get(`/valentine/${id}`)
+            .then(res => setData(res.data))
+            .catch(err => console.error(err))
+            .finally(() => setLoading(false));
+    }, [id]);
 
     const respond = async (response) => {
-        await API.post("/valentine/respond", { id, response });
-        navigate(`/result/${id}`);
+        try {
+            await API.post("/valentine/respond", { id, response });
+            navigate(`/result/${id}`);
+        } catch (err) {
+            console.error("Failed to respond:", err);
+            alert("Failed to save response. Please try again.");
+        }
     };
 
-    if (!data) return null;
+    if (loading) {
+        return (
+            <div className="valentine-loading">
+                <div className="valentine-loading-spinner"></div>
+                Loading your Valentine...
+            </div>
+        );
+    }
+
+    if (!data) {
+        return (
+            <div className="valentine-container">
+                <div className="valentine-card">
+                    <h1 className="valentine-title">Valentine not found</h1>
+                    <p>This Valentine link may have expired or doesn't exist.</p>
+                </div>
+            </div>
+        );
+    }
+
+    const theme = themes[data.theme] || themes.rose;
 
     return (
-        <div className={`min-h-screen flex flex-col items-center justify-center bg-pink-200 text-center ${theme.bg}`}>
-            <div className={`p-8 rounded-xl ${theme.card}`}>
-                <h1 className="text-3xl font-bold mb-6">
+        <div className="valentine-container" style={{ backgroundColor: theme.bg }}>
+            <div className="valentine-card" style={{ 
+                backgroundColor: theme.cardBg || 'white',
+                color: theme.textColor || '#1f2937',
+                border: theme.border ? `1px solid ${theme.border}` : 'none'
+            }}>
+                <h1 className="valentine-title" style={{ color: theme.titleColor || 'inherit' }}>
                     {data.message}
                 </h1>
 
-                <div className="flex gap-6">
+                <div className="valentine-buttons-container">
                     <button
                         onClick={() => respond("yes")}
-                        className={`bg-love text-white px-6 py-3 rounded-xl text-xl ${theme.button}`}
+                        className="valentine-yes-button"
+                        style={{ 
+                            backgroundColor: theme.buttonBg || '#ff6b8b',
+                            color: theme.buttonText || 'white'
+                        }}
                     >
                         Yes ❤️
-        </button>
+                    </button>
 
                     {data.noButtonMode === "move" ? (
                         <MovingNoButton onClick={() => respond("no")} />
                     ) : (
-                            <button onClick={() => respond("no")}>No 💔</button>
-                        )}
+                        <button 
+                            onClick={() => respond("no")}
+                            className="valentine-no-button"
+                        >
+                            No 💔
+                        </button>
+                    )}
                 </div>
+                
                 {data.music && (
-                    <audio autoPlay loop>
-                        <source src={`/music/${data.music}`} />
-                    </audio>
+                    <div className="valentine-audio">
+                        <audio 
+                            autoPlay 
+                            loop 
+                            controls
+                            style={{ 
+                                width: '100%',
+                                maxWidth: '300px',
+                                margin: '20px auto 0',
+                                borderRadius: '20px'
+                            }}
+                        >
+                            <source src={`/music/${data.music}`} type="audio/mpeg" />
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div className="valentine-music-indicator">
+                            <span className="valentine-music-note">♪</span>
+                            <span>Now playing: {data.music}</span>
+                        </div>
+                    </div>
                 )}
-  
-  .c;,;d,cde
-  [pl;
             </div>
         </div>
     );

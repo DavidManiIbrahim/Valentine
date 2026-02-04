@@ -1,0 +1,96 @@
+/* Create component styling - Pure CSS version */
+.create-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fce7f3; /* Equivalent to bg-pink-100 */
+    padding: 24px; /* Equivalent to p-6 */
+  }
+  
+  .create-card {
+    background-color: white;
+    padding: 24px; /* Equivalent to p-6 */
+    border-radius: 16px; /* Equivalent to rounded-xl */
+    width: 100%;
+    max-width: 28rem; /* Equivalent to max-w-md (448px) */
+  }
+  
+  .create-title {
+    font-size: 1.5rem; /* Equivalent to text-2xl */
+    font-weight: 700; /* Equivalent to font-bold */
+    text-align: center;
+    color: #ff6b8b; /* Custom pink color for text-love */
+    margin-bottom: 16px;
+  }
+  
+  .create-input,
+  .create-textarea {
+    width: 100%;
+    padding: 8px 12px; /* Default input padding */
+    margin-top: 12px;
+    border: 1px solid #d1d5db; /* Default border color */
+    border-radius: 8px; /* Default rounded */
+    font-size: 14px;
+    transition: border-color 0.15s ease-in-out;
+    box-sizing: border-box;
+  }
+  
+  .create-input:focus,
+  .create-textarea:focus {
+    outline: none;
+    border-color: #ff6b8b; /* love color */
+    box-shadow: 0 0 0 3px rgba(255, 107, 139, 0.1);
+  }
+  
+  .create-textarea {
+    min-height: 100px;
+    resize: vertical;
+    font-family: inherit;
+  }
+  
+  .create-button {
+    width: 100%;
+    background-color: #ff6b8b; /* bg-love */
+    color: white;
+    padding: 8px 0; /* Equivalent to py-2 */
+    border-radius: 8px; /* Equivalent to rounded-lg */
+    margin-top: 16px; /* Equivalent to mt-4 */
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+  }
+  
+  .create-button:hover {
+    background-color: #ff4d73; /* Slightly darker pink on hover */
+  }
+  
+  .create-button:active {
+    transform: translateY(1px);
+  }
+  
+  .create-link {
+    margin-top: 16px; /* Equivalent to mt-4 */
+    text-align: center;
+    word-break: break-all; /* Equivalent to break-all */
+    font-size: 14px; /* Equivalent to text-sm */
+    color: #374151; /* Default text color */
+    line-height: 1.5;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .create-container {
+      padding: 16px; /* Less padding on mobile */
+    }
+    
+    .create-card {
+      padding: 16px;
+    }
+    
+    .create-title {
+      font-size: 1.25rem; /* Slightly smaller on mobile */
+    }
+  }

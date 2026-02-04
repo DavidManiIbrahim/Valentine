@@ -1,0 +1,196 @@
+/* Valentine component styling - Pure CSS version */
+.valentine-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fbcfe8; /* Default bg-pink-200 */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .valentine-card {
+    padding: 32px; /* Equivalent to p-8 */
+    border-radius: 12px; /* Equivalent to rounded-xl */
+    background-color: white;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    max-width: 90%;
+    width: 100%;
+    animation: cardEntrance 0.8s ease-out;
+  }
+  
+  @keyframes cardEntrance {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  .valentine-title {
+    font-size: 1.875rem; /* Equivalent to text-3xl (30px) */
+    font-weight: 700; /* Equivalent to font-bold */
+    margin-bottom: 24px; /* Equivalent to mb-6 */
+    line-height: 1.25;
+    color: #1f2937; /* Default dark text */
+  }
+  
+  .valentine-buttons-container {
+    display: flex;
+    gap: 24px; /* Equivalent to gap-6 */
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  
+  .valentine-yes-button {
+    background-color: #ff6b8b; /* bg-love */
+    color: white;
+    padding: 12px 24px; /* Equivalent to px-6 py-3 */
+    border-radius: 12px; /* Equivalent to rounded-xl */
+    font-size: 1.25rem; /* Equivalent to text-xl */
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(219, 39, 119, 0.3);
+    min-width: 140px;
+  }
+  
+  .valentine-yes-button:hover {
+    background-color: #ff4d73; /* Darker pink on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(219, 39, 119, 0.4);
+  }
+  
+  .valentine-yes-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(219, 39, 119, 0.3);
+  }
+  
+  .valentine-no-button {
+    background-color: #6b7280; /* Gray for No button */
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+    position: relative;
+  }
+  
+  .valentine-no-button:hover {
+    background-color: #4b5563; /* Darker gray on hover */
+  }
+  
+  /* Loading state */
+  .valentine-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    color: #9d174d;
+    font-size: 1.125rem;
+  }
+  
+  .valentine-loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(219, 39, 119, 0.2);
+    border-top-color: #db2777;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Audio player styling */
+  .valentine-audio {
+    margin-top: 30px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+  
+  .valentine-audio:hover {
+    opacity: 1;
+  }
+  
+  /* Music indicator */
+  .valentine-music-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    color: #9d174d;
+    font-size: 14px;
+    opacity: 0.8;
+  }
+  
+  .valentine-music-note {
+    animation: bounce 1s infinite;
+  }
+  
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .valentine-card {
+      padding: 24px;
+      max-width: 95%;
+    }
+    
+    .valentine-title {
+      font-size: 1.5rem;
+    }
+    
+    .valentine-buttons-container {
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .valentine-yes-button,
+    .valentine-no-button {
+      width: 100%;
+      max-width: 280px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .valentine-card {
+      padding: 20px;
+    }
+    
+    .valentine-title {
+      font-size: 1.25rem;
+    }
+    
+    .valentine-yes-button,
+    .valentine-no-button {
+      font-size: 1.125rem;
+      padding: 10px 20px;
+    }
+  }
