@@ -7,20 +7,24 @@ export const createValentine = async (req, res) => {
       senderName,
       receiverName,
       message,
-      theme,
-      music,
-      noButtonMode,
-      anonymous,
-      expiresAt
+      theme = "rose",
+      music = "love.mp3",
+      noButtonMode = "move",
+      anonymous = false
     } = req.body;
 
+    // Generate unique link ID
     const linkId = generateLinkId();
 
+    // Set expiration date (7 days from now)
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
+    // Create the Valentine
     const valentine = await Valentine.create({
       linkId,
       senderName,
       receiverName,
-      message,
+      message: message || "Will you be my Valentine?",
       theme,
       music,
       noButtonMode,
@@ -28,12 +32,18 @@ export const createValentine = async (req, res) => {
       expiresAt
     });
 
+    // Return the response in the format your frontend expects
     res.status(201).json({
-      success: true,
-      link: `${process.env.FRONTEND_URL}/val/${linkId}`
+      success: true, // Frontend doesn't expect this
+      publicLink: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/val/${linkId}`,
+      dashboardLink: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/dashboard/${linkId}`
     });
   } catch (err) {
-    res.status(500).json({ error: "Failed to create valentine" });
+    console.error("Create Valentine Error:", err);
+    res.status(500).json({ 
+      error: "Failed to create valentine",
+      details: err.message 
+    });
   }
 };
 
