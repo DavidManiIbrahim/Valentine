@@ -4,7 +4,13 @@ import valentineRoutes from "./routes/valentineRoutes.js";
 
 const app = express();
 
-app.use(cors());
+// Allow all origins (use only for development/testing)
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+}));
+
 app.use(express.json());
 app.use("/api/valentine", valentineRoutes);
 
