@@ -37,7 +37,7 @@ const ValentineSchema = new mongoose.Schema({
   },
   response: {
     type: String,
-    enum: ["pending", "YES", "NO"],
+    enum: ["pending", "yes", "no"],
     default: "pending"
   },
   respondedAt: Date,

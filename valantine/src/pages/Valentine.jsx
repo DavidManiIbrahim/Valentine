@@ -58,8 +58,11 @@ export default function Valentine() {
                 border: theme.border ? `1px solid ${theme.border}` : 'none'
             }}>
                 <h1 className="valentine-title" style={{ color: theme.titleColor || 'inherit' }}>
-                    {data.message}
+                    Hey {data.receiverName}, {data.senderName} has a Valentine for you!
                 </h1>
+                <h3  style={{ color: theme.titleColor || 'inherit' }}>
+                    {data.message}
+                </h3>
 
                 <div className="valentine-buttons-container">
                     <button

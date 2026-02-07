@@ -121,6 +121,29 @@ const styles = {
     color: '#6b7280',
     marginTop: '4px',
     fontStyle: 'italic'
+  },
+  successMessage: {
+    position: 'fixed',
+    top: '20px',
+    right: '20px',
+    backgroundColor: '#10b981',
+    color: 'white',
+    padding: '12px 20px',
+    borderRadius: '8px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+    zIndex: '1000',
+    animation: 'slideIn 0.3s ease-out',
+    fontSize: '14px',
+    fontWeight: '500',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px'
+  },
+  successMessageClose: {
+    cursor: 'pointer',
+    marginLeft: '8px',
+    fontSize: '18px',
+    fontWeight: 'bold'
   }
 };
 
@@ -129,6 +152,26 @@ const keyframes = `
   @keyframes spin {
     to {
       transform: rotate(360deg);
+    }
+  }
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
     }
   }
 `;
@@ -213,6 +256,8 @@ export default function Dashboard() {
   const [error, setError] = useState(null);
   const [isHovering, setIsHovering] = useState(false);
   const [dateFormat, setDateFormat] = useState('full'); // 'full', 'simple', or 'relative'
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(""); // Added this missing state
 
   useEffect(() => {
     API.get(`/valentine/dashboard/${id}`)
@@ -224,11 +269,32 @@ export default function Dashboard() {
       .finally(() => setIsLoading(false));
   }, [id]);
 
-  const copyToClipboard = () => {
-    const url = window.location.href.replace('/dashboard/', '/val/');
-    navigator.clipboard.writeText(url)
-      .then(() => alert('Valentine link copied to clipboard!'))
-      .catch(() => alert('Failed to copy link. Please copy it manually.'));
+  const generateValentineLink = () => {
+    const baseUrl = window.location.origin;
+    return `${baseUrl}/val/${id}`;
+  };
+
+  const copyToClipboard = async () => {
+    const valentineLink = generateValentineLink();
+    
+    try {
+      await navigator.clipboard.writeText(valentineLink);
+      setSuccessMessage("✅ Valentine link copied to clipboard!");
+      setShowSuccess(true);
+      
+      // Auto-hide after 3 seconds
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 3000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+      setSuccessMessage("❌ Failed to copy. Please try again.");
+      setShowSuccess(true);
+      
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 3000);
+    }
   };
 
   const getFormattedDate = () => {
@@ -245,6 +311,10 @@ export default function Dashboard() {
     }
   };
 
+  const handleCloseSuccessMessage = () => {
+    setShowSuccess(false);
+  };
+
   if (isLoading) {
     return (
       <div style={styles.loading}>
@@ -258,6 +328,23 @@ export default function Dashboard() {
 
   return (
     <div style={styles.container}>
+      {showSuccess && (
+        <div 
+          style={{
+            ...styles.successMessage,
+            animation: showSuccess ? 'slideIn 0.3s ease-out' : 'slideOut 0.3s ease-out'
+          }}
+        >
+          <span>{successMessage}</span>
+          <span 
+            style={styles.successMessageClose}
+            onClick={handleCloseSuccessMessage}
+          >
+            ×
+          </span>
+        </div>
+      )}
+      
       <div style={styles.card}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
           <h1 style={styles.title}>Valentine Dashboard</h1>
@@ -370,6 +457,11 @@ export default function Dashboard() {
               <span>📋</span>
               Copy Valentine Link
             </button>
+            
+            {/* Optional: Show the link for reference */}
+            <div style={{ marginTop: '12px', fontSize: '12px', color: '#6b7280' }}>
+              Link: {generateValentineLink()}
+            </div>
           </>
         )}
 
